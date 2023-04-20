@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import getFileType, {fileTypes} from "./helpers/getFileType";
+import getFileType from "./helpers/getFileType";
 
 @Component({
   selector: 'app-tree',
@@ -26,9 +26,6 @@ export class TreeComponent {
   @Input() onFileOrDirClick: any;
   directories: any [] = [];
   files: any[] = [];
-  getFileType(name: string): typeof fileTypes[number] {
-    return getFileType(name);
-  }
   ngOnInit() {
     if (this.tree) {
       Object
@@ -57,4 +54,6 @@ export class TreeComponent {
         });
     }
   }
+
+  protected readonly getFileType = getFileType;
 }

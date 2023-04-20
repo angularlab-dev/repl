@@ -6,7 +6,23 @@ import { WebIdeApi } from "./web-ide/type";
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  template: `
+    <app-nav></app-nav>
+    <div class="grid grid-rows-4 grid-cols-12 grid-flow-col gap-2 h-[780px] dark:bg-zinc-900 dark:text-gray-200">
+      <div class="row-span-4 col-span-3 h-full overflow-scroll bg-zinc-800 border-r border-gray-600">
+        <app-tree [tree]="tree" [onFileOrDirClick]="onFileOrDirClicked" [currentFilePath]="currentFilePath"></app-tree>
+      </div>
+      <div class="row-span-3 col-span-6">
+        <opened-files [openedFiles]="openedFiles" [closeFile]="closeFile" [setCurrentFile]="setCurrentFile" [currentFilePath]="currentFilePath"></opened-files>
+        <div #editor class="h-full overflow-scroll"></div>
+      </div>
+      <div #terminal style="background: #000000" class="col-span-6 terminal"></div>
+      <div class="row-span-4 col-span-3  bg-gray-50 ">
+        <iframe #iframe style="height: 100%; width: 100%"></iframe>
+      </div>
+    </div>
+    <router-outlet></router-outlet>
+  `,
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
@@ -16,7 +32,6 @@ export class AppComponent {
   title = 'lab';
   ide: WebIdeApi | undefined;
   currentFilePath: string | undefined;
-  files: any = Object.keys(tree);
   tree: any = tree;
   openedFiles: any[] = [];
 

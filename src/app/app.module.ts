@@ -6,10 +6,12 @@ import { AppComponent } from './app.component';
 import { TreeComponent } from "./tree.component";
 import { FolderIconComponent } from "./icons/folder-icon.component";
 import { FileIconComponent } from "./icons/file-icon.component";
+import { NavigationComponent } from "./components/navigation.component";
+import { OpenedFilesComponent } from "./components/opened-files.component";
 
 @NgModule({
   declarations: [
-    AppComponent, TreeComponent, FolderIconComponent, FileIconComponent
+    AppComponent, TreeComponent, FolderIconComponent, FileIconComponent, NavigationComponent, OpenedFilesComponent
   ],
   imports: [
     BrowserModule,
