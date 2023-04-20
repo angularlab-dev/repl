@@ -30,7 +30,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/xterm/css/xterm.css"
             ],
             "scripts": []
           },
@@ -71,7 +72,14 @@
               "browserTarget": "lab:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "headers": {
+              "cross-origin-opener-policy": "same-origin",
+              "cross-origin-embedder-policy": "require-corp",
+              "cross-origin-resource-policy": "cross-origin"
+            }
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
