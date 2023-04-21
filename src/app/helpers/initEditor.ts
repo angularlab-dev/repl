@@ -1,22 +1,22 @@
 import {EditorView} from "codemirror";
 import {javascript} from "@codemirror/lang-javascript";
 import editorExtensions from "./editor-extensions";
-import {ideState} from "../../state";
+import {currentFile, ideState} from "../../state";
+import writeCurrentFile from "./writeCurrentFile";
 
 export default function initEditor() {
   const state = ideState();
   const editorEl = state.options?.editorEl;
-  const onContentChange = state.options?.editorOptions.onContentChange;
   const editorView = new EditorView({
     extensions: [javascript(), ...editorExtensions],
     parent: editorEl,
     dispatch: async (transaction) => {
       editorView?.update([transaction]);
-      onContentChange && await onContentChange(editorView?.state.doc.toString());
+      await writeCurrentFile();
     }
   })
   ideState.mutate((val) => {
-    val.editorView = editorView;
+    val.editor = editorView;
   });
   EditorView.theme({
     '.cm-gutter, .cm-content': {

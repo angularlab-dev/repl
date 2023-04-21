@@ -1,39 +1,27 @@
 import startShell from "./startShell";
 import { ideState } from "../../state";
 
-async function initWC() {
-  const { containerInstance, terminal, options } = ideState();
+async function initWc() {
+  const { vm, terminal, options } = ideState();
   const tree = options?.tree || {};
   const iframeEl = options?.iframeEl;
   const { WebContainer } = await import('@webcontainer/api');
 
-  if (!containerInstance) {
+  if (!vm) {
     terminal.write("will boot web container........\n");
     const containerInstance = await WebContainer.boot()
     await containerInstance.mount(tree);
     containerInstance.on('server-ready', (port: number, url: string) => {
-      console.log('READY!!!!!');
+      terminal.write('preview ready.....');
       if (iframeEl) {
         iframeEl.src = url;
       }
     });
 
     ideState.mutate((val) => {
-      val.containerInstance = containerInstance;
+      val.vm = containerInstance;
     });
     await startShell();
-    const { shellProcess } = ideState();
-    shellProcess.output.pipeTo(new WritableStream({
-      write(data) {
-        terminal.write(data);
-      }
-    })).then();
-
-    const input = shellProcess.input.getWriter();
-
-    terminal.onData((data: string) => {
-      input.write(data);
-    });
   }
 }
-export default initWC;
+export default initWc;

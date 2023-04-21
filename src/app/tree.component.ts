@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import getFileType from "./helpers/getFileType";
+import {IdeFile} from "../state.types";
+import {currentFile, openedFiles} from "../state";
 
 @Component({
   selector: 'app-tree',
@@ -9,10 +11,10 @@ import getFileType from "./helpers/getFileType";
         <folder-icon></folder-icon>
         {{ dir.name }}
         <ng-container>
-          <app-tree [tree]="dir['directory']" [path]="dir['path']" [onFileOrDirClick]="onFileOrDirClick" [currentFilePath]="currentFilePath"></app-tree>
+          <app-tree [tree]="dir['directory']" [path]="dir['path']"></app-tree>
         </ng-container>
       </li>
-      <li *ngFor="let file of files" (click)="onFileOrDirClick(file)" class="{{file.path === currentFilePath ? 'text-red-500 border-b-2 border-primary cursor-pointer': ''}}">
+      <li *ngFor="let file of files" (click)="onFileOrDirClick(file)" class="{{file.path === currentFile()?.path ? 'text-red-500 border-b-2 border-primary cursor-pointer': ''}}">
         <file-icon type="{{getFileType(file.name)}}"></file-icon>
         {{ file.path }}
       </li>
@@ -22,10 +24,22 @@ import getFileType from "./helpers/getFileType";
 export class TreeComponent {
   @Input() tree: any[] | undefined;
   @Input() path: string = '.';
-  @Input() currentFilePath?: string = '';
-  @Input() onFileOrDirClick: any;
   directories: any [] = [];
   files: any[] = [];
+  async openFile(file: IdeFile) {
+    const alreadyOpen = openedFiles().find((f) => f.path === file.path);
+    if (!alreadyOpen) {
+      openedFiles.mutate((val) => val.push(file));
+    }
+    currentFile.set(file);
+  }
+  async onFileOrDirClick (fileOrDir: any) {
+    if (!!fileOrDir['file']) {
+      await this.openFile(fileOrDir);
+    }
+  }
+  protected readonly getFileType = getFileType;
+  protected readonly currentFile = currentFile;
   ngOnInit() {
     if (this.tree) {
       Object
@@ -54,6 +68,4 @@ export class TreeComponent {
         });
     }
   }
-
-  protected readonly getFileType = getFileType;
 }
