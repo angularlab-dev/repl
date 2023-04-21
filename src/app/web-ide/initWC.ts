@@ -1,11 +1,10 @@
 import startShell from "./startShell";
-import state from "./state";
+import { ideState } from "../../state";
 
 async function initWC() {
-  const {get, set} = state;
-
-  const value = get();
-  const { containerInstance, terminal, options: { tree, iframeEl } } = value;
+  const { containerInstance, terminal, options } = ideState();
+  const tree = options?.tree || {};
+  const iframeEl = options?.iframeEl;
   const { WebContainer } = await import('@webcontainer/api');
 
   if (!containerInstance) {
@@ -14,15 +13,16 @@ async function initWC() {
     await containerInstance.mount(tree);
     containerInstance.on('server-ready', (port: number, url: string) => {
       console.log('READY!!!!!');
-      iframeEl.src = url;
+      if (iframeEl) {
+        iframeEl.src = url;
+      }
     });
 
-    set({
-      ...value,
-      containerInstance,
+    ideState.mutate((val) => {
+      val.containerInstance = containerInstance;
     });
     await startShell();
-    const { shellProcess } = get();
+    const { shellProcess } = ideState();
     shellProcess.output.pipeTo(new WritableStream({
       write(data) {
         terminal.write(data);

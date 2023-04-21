@@ -1,46 +1,40 @@
 import {EditorState} from "@codemirror/state";
 import initEditor from "./initEditor";
-import {WebIdeApi, WebIdeOptions} from "./type";
+import { WebIdeApi, WebIdeOptions } from "./type";
 import initTerminal from "./initTerminal";
 import initWC from "./initWC";
-import state from "./state";
 import {FileSystemTree} from "@webcontainer/api";
+import {IdeFile} from "../../state.types";
+import { ideState } from "../../state";
 
 function WebIde(options: WebIdeOptions): WebIdeApi {
-  const {get, set} = state;
-
-  set({
-    editorView: null,
-    containerInstance: null,
-    terminal: null,
-    shellProcess: null,
-    options,
+  ideState.mutate((val) => {
+    val.options = options;
   });
 
-  const setEditorContent = (content: string) => {
-    const { editorView } = get();
-    editorView?.setState(EditorState.create({ doc: content }))
-  };
   const startWorkspace = async (): Promise<void> => {
     await initTerminal();
     await initWC();
   }
   const getTree = async (): Promise<FileSystemTree> => {
-    const { containerInstance } = get();
+    const { containerInstance } = ideState();
     return containerInstance.fs.readdir('');
   };
   return {
     editor: {
       init: initEditor,
-      setContent: setEditorContent,
+      setFile: async (file: IdeFile| null) => {
+        const { editorView, containerInstance } = ideState();
+        const doc = file !== null ? await containerInstance.fs.readFile(file.path, 'utf-8') : '';
+        editorView?.setState(EditorState.create({ doc }));
+      },
     },
     ws: {
       start: startWorkspace,
       writeFile: (path: string, content: string) => {
-        get().containerInstance.fs.writeFile(path, content);
+        ideState().containerInstance.fs.writeFile(path, content);
       },
     },
-    getState: get,
     getTree,
   };
 }

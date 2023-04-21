@@ -1,12 +1,12 @@
 import {EditorView} from "codemirror";
 import {javascript} from "@codemirror/lang-javascript";
 import editorExtensions from "./editor-extensions";
-import state from "./state";
+import {ideState} from "../../state";
 
 export default function initEditor() {
-  const {get, set} = state;
-  const value = get();
-  const { options: { editorEl, editorOptions: { onContentChange } } } = value;
+  const state = ideState();
+  const editorEl = state.options?.editorEl;
+  const onContentChange = state.options?.editorOptions.onContentChange;
   const editorView = new EditorView({
     extensions: [javascript(), ...editorExtensions],
     parent: editorEl,
@@ -15,9 +15,8 @@ export default function initEditor() {
       onContentChange && await onContentChange(editorView?.state.doc.toString());
     }
   })
-  set({
-    ...value,
-    editorView,
+  ideState.mutate((val) => {
+    val.editorView = editorView;
   });
   EditorView.theme({
     '.cm-gutter, .cm-content': {

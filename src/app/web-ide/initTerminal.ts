@@ -1,10 +1,11 @@
-import state from "./state";
+import { ideState } from "../../state";
 
 async function initTerminal() {
-  const {get, set} = state;
+  const terminalEl = ideState().options?.terminalEl;
+  if (!terminalEl) {
+    throw new Error('Terminal Element is not defined');
+  }
 
-  const value = get();
-  const { options: { terminalEl }} = value;
   const { Terminal } = await import('xterm');
   const { FitAddon } = await import('xterm-addon-fit');
 
@@ -17,9 +18,8 @@ async function initTerminal() {
   terminal.open(terminalEl);
 
   fitAddon.fit();
-  set({
-    ...value,
-    terminal,
+  ideState.mutate((val) => {
+    val.terminal = terminal;
   });
 }
 export default initTerminal;

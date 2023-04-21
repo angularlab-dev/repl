@@ -1,8 +1,7 @@
-import state from "./state";
+import {ideState} from "../../state";
 
 async function installDeps() {
-  const {get} = state;
-  const { containerInstance, terminal } = get();
+  const { containerInstance, terminal } = ideState();
   const installProcess = await containerInstance.spawn('npm', ['install']);
   installProcess.output.pipeTo(new WritableStream({
     write(data) {

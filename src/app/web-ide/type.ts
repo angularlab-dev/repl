@@ -1,5 +1,6 @@
 import {FileSystemTree} from "@webcontainer/api";
 import {EditorView} from "codemirror";
+import {IdeFile} from "../../state.types";
 
 export interface EditorFile {
   name: string;
@@ -29,18 +30,17 @@ export interface IdeState {
   containerInstance: any;
   terminal: any;
   shellProcess?: any;
-  options: WebIdeOptions;
+  options?: WebIdeOptions;
 }
 export interface WebIdeApi {
   editor: {
     init: () => void,
-    setContent: (content: string) => void;
+    setFile: (file: IdeFile | null) => void;
   };
   ws: {
     start: () => void;
     writeFile: (path: string, content: string) => void;
   };
-  getState: () => IdeState;
   getTree: () => Promise<FileSystemTree>;
 }
 
