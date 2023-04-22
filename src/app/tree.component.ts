@@ -1,20 +1,22 @@
 import { Component, Input } from '@angular/core';
 import getFileType from "./helpers/getFileType";
 import {IdeFile} from "../state.types";
-import {currentFile, openedFiles} from "../state";
+import {currentFile, openedFiles, theme} from "../state";
 
 @Component({
   selector: 'app-tree',
   template: `
     <ul *ngIf="tree" style="padding-left: 20px">
-      <li *ngFor="let dir of directories" (click)="onFileOrDirClick(dir)">
+      <li [style.color]="theme().config.foreground" *ngFor="let dir of directories" (click)="onFileOrDirClick(dir)">
         <folder-icon></folder-icon>
         {{ dir.name }}
         <ng-container>
           <app-tree [tree]="dir['directory']" [path]="dir['path']"></app-tree>
         </ng-container>
       </li>
-      <li *ngFor="let file of files" (click)="onFileOrDirClick(file)" class="{{file.path === currentFile()?.path ? 'text-red-500 border-b-2 border-primary cursor-pointer': ''}}">
+      <li *ngFor="let file of files" (click)="onFileOrDirClick(file)"
+          [style.color]="file.path === currentFile()?.path ? '#ff003b' : theme().config.foreground"
+      >
         <file-icon type="{{getFileType(file.name)}}"></file-icon>
         {{ file.path }}
       </li>
@@ -40,6 +42,7 @@ export class TreeComponent {
   }
   protected readonly getFileType = getFileType;
   protected readonly currentFile = currentFile;
+  protected readonly theme = theme;
   ngOnInit() {
     if (this.tree) {
       Object

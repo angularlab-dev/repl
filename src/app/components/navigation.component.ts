@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { theme } from '../../state';
 
 @Component({
   selector: 'app-nav',
   template: `
-<nav class="bg-white dark:bg-zinc-900 sticky w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
+<nav [style.background-color]="theme().config.background" class="sticky w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
   <div class="flex flex-wrap items-center justify-between mx-auto p-1">
     <a href="https://flowbite.com/" class="flex items-center">
       <img src="assets/logo.png" class="h-12 mr-3" alt="Flowbite Logo">
@@ -30,4 +31,6 @@ import { Component } from '@angular/core';
 </nav>
   `
 })
-export class NavigationComponent {}
+export class NavigationComponent {
+  protected readonly theme = theme;
+}

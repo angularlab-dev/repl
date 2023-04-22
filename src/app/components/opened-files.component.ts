@@ -1,14 +1,15 @@
-import {Component, effect, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import getFileType from "../helpers/getFileType";
 import {currentFile, openedFiles} from "../../state";
 import {IdeFile} from "../../state.types";
+import {theme} from "../../state";
 
 @Component({
   selector: 'opened-files',
   template: `
     <nav class="flex space-x-8" aria-label="Tabs">
-      <div *ngFor="let file of openedFiles()" (click)="currentFile.set(file)" class="flex">
-        <div class="{{ currentFile()?.path === file.path ? 'border-b-4 border-primary cursor-pointer': 'border-transparent text-gray-300 hover:text-gray-50'}}">
+      <div *ngFor="let file of openedFiles()" (click)="currentFile.set(file)">
+        <div class="{{ currentFile()?.path === file.path ? 'border-b-2 border-primary cursor-pointer shadow-xl text-primary': 'border-transparent'}}">
           <file-icon [type]="getFileType(file.name)"></file-icon>
           <span
             class="cursor-pointer group inline-flex items-center py-2 px-1 text-sm font-medium">
@@ -36,4 +37,5 @@ export class OpenedFilesComponent {
   protected readonly getFileType = getFileType;
   protected readonly openedFiles = openedFiles;
   protected readonly currentFile = currentFile;
+  protected readonly theme = theme;
 }
