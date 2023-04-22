@@ -7,8 +7,8 @@ import openFile from "./helpers/openFile";
 @Component({
   selector: 'app-root',
   template: `
-<!--    <app-nav></app-nav>-->
-    <div class="grid grid-cols-12 grid-rows-6 h-full grid-flow-col gap-3 dark:bg-zinc-300 dark:text-gray-200 p-2">
+    <app-nav></app-nav>
+    <div class="grid grid-cols-12 grid-rows-6 ide bg-gray-200 grid-flow-col gap-3 dark:bg-zinc-900 dark:text-gray-200 p-2">
       <div class="row-span-5 col-span-3 bg-zinc-800 border-r border-gray-600 rounded-lg overflow-hidden">
         <app-tree [tree]="tree"></app-tree>
       </div>
