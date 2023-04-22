@@ -6,7 +6,7 @@ import {IdeFile} from "../../state.types";
 @Component({
   selector: 'opened-files',
   template: `
-    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+    <nav class="flex space-x-8" aria-label="Tabs">
       <div *ngFor="let file of openedFiles()" (click)="currentFile.set(file)" class="flex">
         <div class="{{ currentFile()?.path === file.path ? 'border-b-4 border-primary cursor-pointer': 'border-transparent text-gray-300 hover:text-gray-50'}}">
           <file-icon [type]="getFileType(file.name)"></file-icon>
