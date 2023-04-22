@@ -1,7 +1,7 @@
 import {Theme} from "../helpers/type";
 import getExtension from "./getExtension";
 
-export const config = {
+const config = {
   name: 'aura',
   dark: true,
   background: '#21202e',
@@ -29,5 +29,6 @@ export const config = {
 }
 export const aura: Theme = {
   name: 'Aura',
+  config,
   extension: getExtension(config),
 };

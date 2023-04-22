@@ -1,7 +1,7 @@
 import {Theme} from "../helpers/type";
 import getExtension from "./getExtension";
 
-export const config = {
+const config = {
   name: 'githubLight',
   dark: false,
   background: '#fff',
@@ -30,5 +30,6 @@ export const config = {
 
 export const githubLight: Theme = {
   name: 'Github Light',
+  config,
   extension: getExtension(config),
 };

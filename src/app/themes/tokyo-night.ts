@@ -1,7 +1,7 @@
 import {Theme} from "../helpers/type";
 import getExtension from "./getExtension";
 
-export const config = {
+const config = {
   name: 'tokyoNight',
   dark: true,
   background: '#1a1b26',
@@ -30,5 +30,6 @@ export const config = {
 
 export const tokyoNight: Theme = {
   name: 'Tokyo Night',
+  config,
   extension: getExtension(config),
 };

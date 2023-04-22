@@ -1,7 +1,7 @@
 import {Theme} from "../helpers/type";
 import getExtension from "./getExtension";
 
-export const config = {
+const config = {
   name: 'materialLight',
   dark: false,
   background: '#FAFAFA',
@@ -30,5 +30,6 @@ export const config = {
 
 export const materialLight: Theme = {
   name: 'Material Light',
+  config,
   extension: getExtension(config),
 };

@@ -1,7 +1,7 @@
 import { Component, effect, ViewChild } from '@angular/core';
 import initWs from "./helpers/initWs";
 import tree from "./tree";
-import { currentFile } from "../state";
+import {currentFile, theme} from "../state";
 import openFile from "./helpers/openFile";
 
 @Component({
@@ -9,7 +9,7 @@ import openFile from "./helpers/openFile";
   template: `
     <app-nav></app-nav>
     <div class="grid grid-cols-12 grid-rows-6 ide bg-gray-200 grid-flow-col gap-3 dark:bg-zinc-900 dark:text-gray-200 p-2">
-      <div class="row-span-5 col-span-3 bg-zinc-800 border-r border-gray-600 rounded-lg overflow-hidden">
+      <div #treeContainer [style.background-color]="theme().config.background" class="row-span-5 col-span-3 border-r border-gray-600 rounded-lg overflow-hidden">
         <app-tree [tree]="tree"></app-tree>
       </div>
       <div class="row-span-1 col-span-3 bg-zinc-800 border-r p-2 rounded-lg border-gray-600">
@@ -34,6 +34,7 @@ export class AppComponent {
   @ViewChild('editor') editorDiv: any;
   @ViewChild('iframe') iframeEl: any;
   @ViewChild('terminal') terminalEl: any;
+  @ViewChild('treeContainer') treeContainer: any;
   title = 'lab';
   tree: any = tree;
   constructor() {
@@ -54,4 +55,5 @@ export class AppComponent {
   }
 
   protected readonly currentFile = currentFile;
+  protected readonly theme = theme;
 }

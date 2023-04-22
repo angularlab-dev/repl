@@ -17,6 +17,7 @@ export interface IdeState {
 
 export interface Theme {
   name: string;
+  config: ThemeConfig,
   extension: Extension;
 }
 

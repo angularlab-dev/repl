@@ -1,7 +1,7 @@
 import {Theme} from "../helpers/type";
 import getExtension from "./getExtension";
 
-export const config = {
+const config = {
   name: 'solarizedLight',
   dark: false,
   background: '#fdf6e3',
@@ -30,5 +30,6 @@ export const config = {
 
 export const solarizedLight: Theme = {
   name: 'Solarized Light',
+  config,
   extension: getExtension(config),
 };

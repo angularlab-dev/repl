@@ -1,7 +1,7 @@
 import {Theme} from "../helpers/type";
 import getExtension from "./getExtension";
 
-export const config = {
+const config = {
   name: 'dracula',
   dark: true,
   background: '#282A36',
@@ -30,5 +30,6 @@ export const config = {
 
 export const dracula: Theme = {
   name: 'Dracula',
+  config,
   extension: getExtension(config),
 };
