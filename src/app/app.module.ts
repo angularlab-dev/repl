@@ -8,10 +8,17 @@ import { FolderIconComponent } from "./icons/folder-icon.component";
 import { FileIconComponent } from "./icons/file-icon.component";
 import { NavigationComponent } from "./components/navigation.component";
 import { OpenedFilesComponent } from "./components/opened-files.component";
+import {MenuComponent} from "./components/menu.component";
 
 @NgModule({
   declarations: [
-    AppComponent, TreeComponent, FolderIconComponent, FileIconComponent, NavigationComponent, OpenedFilesComponent
+    AppComponent,
+    TreeComponent,
+    FolderIconComponent,
+    FileIconComponent,
+    NavigationComponent,
+    OpenedFilesComponent,
+    MenuComponent,
   ],
   imports: [
     BrowserModule,

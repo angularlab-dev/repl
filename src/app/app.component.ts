@@ -15,8 +15,8 @@ import openFile from "./helpers/openFile";
       <div class="row-span-1 col-span-3 bg-zinc-800 border-r p-2 rounded-lg border-gray-600">
         <h2 class="text-lg font-medium">Settings</h2>
       </div>
-      <div class="row-span-4 col-span-6 px-2 bg-zinc-800 rounded-lg overflow-auto relative">
-        <div class="sticky top-0 bg-zinc-800 z-50">
+      <div class="row-span-4 col-span-6 bg-zinc-800 rounded-lg overflow-auto relative">
+        <div class="sticky top-0 bg-zinc-800 z-50 px-2">
           <opened-files></opened-files>
         </div>
         <div #editor class="z-10"></div>
