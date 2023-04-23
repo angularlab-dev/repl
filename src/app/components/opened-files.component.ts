@@ -1,15 +1,22 @@
 import {Component} from '@angular/core';
 import getFileType from "../helpers/getFileType";
-import {currentFile, openedFiles} from "../../state";
+import {currentFile, mode, openedFiles} from "../../state";
 import {IdeFile} from "../../state.types";
 import {theme} from "../../state";
+import lightenColor from "../../utils/lightenColor";
+import isFileOpen from "../helpers/isFileOpen";
 
 @Component({
   selector: 'opened-files',
   template: `
-    <nav class="flex space-x-8" aria-label="Tabs">
-      <div *ngFor="let file of openedFiles()" (click)="currentFile.set(file)">
-        <div class="{{ currentFile()?.path === file.path ? 'border-b-2 border-primary cursor-pointer shadow-xl text-primary': 'border-transparent'}}">
+    <nav class="flex" aria-label="Tabs">
+      <div
+        *ngFor="let file of openedFiles()"
+        (click)="currentFile.set(file)"
+        class="px-2 {{ isFileOpen(file) ? 'border-b-2 border-active cursor-pointer shadow-xl text-active': 'border-transparent'}}"
+        [style.background-color]="isFileOpen(file) ? bg : bg__selected"
+      >
+        <div>
           <file-icon [type]="getFileType(file.name)"></file-icon>
           <span
             class="cursor-pointer group inline-flex items-center py-2 px-1 text-sm font-medium">
@@ -22,6 +29,8 @@ import {theme} from "../../state";
   `
 })
 export class OpenedFilesComponent {
+  bg = lightenColor(theme().config.background, 20);
+  bg__selected = lightenColor(theme().config.background, 40);
   closeFile (file: IdeFile) {
     openedFiles.mutate((val) => {
       const index = val.findIndex((elm) => elm.path === file.path);
@@ -37,5 +46,5 @@ export class OpenedFilesComponent {
   protected readonly getFileType = getFileType;
   protected readonly openedFiles = openedFiles;
   protected readonly currentFile = currentFile;
-  protected readonly theme = theme;
+  protected readonly isFileOpen = isFileOpen;
 }

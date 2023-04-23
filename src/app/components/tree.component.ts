@@ -1,13 +1,14 @@
 import { Component, Input } from '@angular/core';
-import getFileType from "./helpers/getFileType";
-import {IdeFile} from "../state.types";
-import {currentFile, openedFiles, theme} from "../state";
+import getFileType from "../helpers/getFileType";
+import {IdeFile} from "../../state.types";
+import {currentFile, openedFiles, theme} from "../../state";
+import isFileOpen from "../helpers/isFileOpen";
 
 @Component({
   selector: 'app-tree',
   template: `
     <ul *ngIf="tree" style="padding-left: 20px">
-      <li [style.color]="theme().config.foreground" *ngFor="let dir of directories" (click)="onFileOrDirClick(dir)">
+      <li [style.color]="fg" *ngFor="let dir of directories" (click)="onFileOrDirClick(dir)">
         <folder-icon></folder-icon>
         {{ dir.name }}
         <ng-container>
@@ -15,7 +16,7 @@ import {currentFile, openedFiles, theme} from "../state";
         </ng-container>
       </li>
       <li *ngFor="let file of files" (click)="onFileOrDirClick(file)"
-          [style.color]="file.path === currentFile()?.path ? '#ff003b' : theme().config.foreground"
+          [style.color]="isFileOpen(file) ? '#ff003b' : theme().config.foreground"
       >
         <file-icon type="{{getFileType(file.name)}}"></file-icon>
         {{ file.path }}
@@ -28,6 +29,7 @@ export class TreeComponent {
   @Input() path: string = '.';
   directories: any [] = [];
   files: any[] = [];
+  fg = theme().config.foreground;
   async openFile(file: IdeFile) {
     const alreadyOpen = openedFiles().find((f) => f.path === file.path);
     if (!alreadyOpen) {
@@ -71,4 +73,6 @@ export class TreeComponent {
         });
     }
   }
+
+  protected readonly isFileOpen = isFileOpen;
 }
