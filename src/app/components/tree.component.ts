@@ -8,7 +8,7 @@ import isFileOpen from "../helpers/isFileOpen";
   selector: 'app-tree',
   template: `
     <ul *ngIf="tree" style="padding-left: 20px" class="cursor-pointer">
-      <li [style.color]="fg" *ngFor="let dir of directories" (click)="onFileOrDirClick(dir)">
+      <li *ngFor="let dir of directories" (click)="onFileOrDirClick(dir)">
         <folder-icon></folder-icon>
         {{ dir.name }}
         <ng-container>
@@ -17,7 +17,6 @@ import isFileOpen from "../helpers/isFileOpen";
       </li>
       <li *ngFor="let file of files" (click)="onFileOrDirClick(file)"
           class="{{isFileOpen(file) ? 'bg-active bg-opacity-40': ''}}"
-          [style.color]="fg"
       >
         <file-icon type="{{getFileType(file.name)}}"></file-icon>
         {{ file.path }}

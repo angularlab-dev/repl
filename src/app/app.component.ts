@@ -10,7 +10,7 @@ import isFileOpen from "./helpers/isFileOpen";
   selector: 'app-root',
   template: `
     <app-nav></app-nav>
-    <div class="grid grid-cols-12 grid-rows-6 ide bg-gray-200 grid-flow-col " [style.color]="fg">
+    <div class="grid grid-cols-12 grid-rows-6 ide bg-gray-200 grid-flow-col {{theme().config.dark ? 'text-gray-200' : 'text-gray-700' }}" >
       <div #treeContainer [style.background-color]="bg__light20" class="row-span-5 col-span-3 border-r border-gray-600 overflow-hidden">
         <app-tree [tree]="tree"></app-tree>
       </div>
@@ -37,9 +37,9 @@ import isFileOpen from "./helpers/isFileOpen";
         <div #editor class="z-10" [style.display]="mode() === 'code' ? 'block': 'none'"></div>
       </div>
       <div class="row-span-2 col-span-9 overflow-hidden" [style.background-color]="bg">
-        <div class="" [style.background-color]="bg__light20">
+        <div class="shadow-xl" [style.background-color]="bg__light20">
           <div class="container mx-auto">
-            <div class="flex items-center justify-start">
+            <div class="flex items-center justify-start shadow-2xl">
               <button
                 (click)="devToolsView.set('output')"
                 class="w-24 relative px-1 py-1 focus:outline-none border-b {{devToolsView() === 'output' ? 'border-active' : 'border-transparent'}}">
@@ -109,4 +109,5 @@ export class AppComponent {
   protected readonly mode = mode;
   protected readonly devToolsView = devToolsView;
   protected readonly isFileOpen = isFileOpen;
+  protected readonly theme = theme;
 }
