@@ -9,6 +9,7 @@ import { FileIconComponent } from "./icons/file-icon.component";
 import { NavigationComponent } from "./components/navigation.component";
 import { OpenedFilesComponent } from "./components/opened-files.component";
 import {MenuComponent} from "./components/menu.component";
+import {CloseIconComponent} from "./components/icons/close-icon.component";
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {MenuComponent} from "./components/menu.component";
     NavigationComponent,
     OpenedFilesComponent,
     MenuComponent,
+    CloseIconComponent,
   ],
   imports: [
     BrowserModule,

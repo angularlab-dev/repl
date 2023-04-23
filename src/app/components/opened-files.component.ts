@@ -22,7 +22,7 @@ import isFileOpen from "../helpers/isFileOpen";
             class="cursor-pointer group inline-flex items-center py-2 px-1 text-sm font-medium">
                 {{file.name}}
                 </span>
-          <span (click)="closeFile(file)">x</span>
+          <span (click)="closeFile(file)"><close-icon></close-icon></span>
         </div>
       </div>
     </nav>

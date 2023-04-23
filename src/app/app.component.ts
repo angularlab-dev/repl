@@ -4,6 +4,7 @@ import tree from "./tree";
 import {currentFile, devToolsView, ideState, mode, theme} from "../state";
 import openFile from "./helpers/openFile";
 import lightenColor from "../utils/lightenColor";
+import isFileOpen from "./helpers/isFileOpen";
 
 @Component({
   selector: 'app-root',
@@ -20,10 +21,12 @@ import lightenColor from "../utils/lightenColor";
       <div class="row-span-4 col-span-9 overflow-auto relative" [style.background-color]="bg">
         <div class="sticky top-0 z-10 shadow-md" [style.background-color]="bg__light20">
           <div class="flex">
-            <div class="grow">
+            <div>
               <opened-files></opened-files>
             </div>
-            <div (click)="mode.set('preview')">
+            <div (click)="mode.set('preview')"
+                 class="flex p-2 cursor-pointer ml-auto {{ mode() === 'preview' ? 'border-b-2 border-active shadow-xl': 'border-transparent'}}"
+            >
               preview
             </div>
           </div>
@@ -34,8 +37,23 @@ import lightenColor from "../utils/lightenColor";
         <div #editor class="z-10" [style.display]="mode() === 'code' ? 'block': 'none'"></div>
       </div>
       <div class="row-span-2 col-span-9 overflow-hidden" [style.background-color]="bg">
-        <div class="p-1" [style.background-color]="bg__light20" (click)="devToolsView.set('terminal')">Terminal</div>
-        <div class="p-1" [style.background-color]="bg__light20" (click)="devToolsView.set('output')">Output</div>
+        <div class="" [style.background-color]="bg__light20">
+          <div class="container mx-auto">
+            <div class="flex items-center justify-start">
+              <button
+                (click)="devToolsView.set('output')"
+                class="w-24 relative px-1 py-1 focus:outline-none border-b {{devToolsView() === 'output' ? 'border-active' : 'border-transparent'}}">
+                Output
+              </button>
+              <button
+                (click)="devToolsView.set('terminal')"
+                class="w-24 relative px-1 py-1 focus:outline-none border-b {{devToolsView() === 'terminal' ? 'border-active' : 'border-transparent'}}">
+                Terminal
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div #terminal class="px-1 terminal" [style.display]="devToolsView() === 'terminal' ? 'block': 'none'"></div>
         <div #output class="px-1 terminal" [style.display]="devToolsView() === 'output' ? 'block': 'none'"></div>
       </div>
@@ -90,4 +108,5 @@ export class AppComponent {
 
   protected readonly mode = mode;
   protected readonly devToolsView = devToolsView;
+  protected readonly isFileOpen = isFileOpen;
 }
