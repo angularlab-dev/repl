@@ -12,3 +12,4 @@ export const ideState = signal<IdeState>({
   terminal: null,
 });
 export const theme = signal<Theme>(dracula);
+export const mode = signal<'code' | 'preview'>('code');

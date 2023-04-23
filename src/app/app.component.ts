@@ -1,7 +1,7 @@
 import { Component, effect, ViewChild } from '@angular/core';
 import initWs from "./helpers/initWs";
 import tree from "./tree";
-import {currentFile, ideState, theme} from "../state";
+import {currentFile, ideState, mode, theme} from "../state";
 import openFile from "./helpers/openFile";
 import darkenColor from "../utils/darkenColor";
 import lightenColor from "../utils/lightenColor";
@@ -17,18 +17,24 @@ import lightenColor from "../utils/lightenColor";
       <div [style.background-color]="lightenColor(theme().config.background, 20)" class="row-span-1 col-span-3 border-r p-2 border-gray-600">
         <div class="p-2" [style.background-color]="lightenColor(theme().config.background, 10)">Settings</div>
       </div>
-      <div class="row-span-4 col-span-6 overflow-auto relative" [style.background-color]="theme().config.background">
+
+      <div class="row-span-4 col-span-9 overflow-auto relative" [style.background-color]="theme().config.background">
         <div class="sticky top-0 z-50 px-2 shadow-md" [style.background-color]="lightenColor(theme().config.background, 20)">
-          <opened-files></opened-files>
+          <div class="flex">
+            <div class="grow">
+              <opened-files></opened-files>
+            </div>
+            <div (click)="mode.set('preview')">
+              preview
+            </div>
+          </div>
         </div>
-        <div #editor class="z-10"></div>
+        <div #editor class="z-10" [style.display]="mode() === 'code' ? 'block': 'none'"></div>
+        <iframe [style.display]="mode() === 'preview' ? 'block': 'none'" #iframe style="height: 100%; width: 100%"></iframe>
       </div>
-      <div class="row-span-2 col-span-6 overflow-hidden" [style.background-color]="theme().config.background">
+      <div class="row-span-2 col-span-9 overflow-hidden" [style.background-color]="theme().config.background">
         <div class="p-1" [style.background-color]="lightenColor(theme().config.background, 20)">Terminal</div>
         <div #terminal class="px-1 terminal"></div>
-      </div>
-      <div class="row-span-6 col-span-3"  [style.background-color]="theme().config.background">
-        <iframe #iframe style="height: 100%; width: 100%"></iframe>
       </div>
     </div>
     <router-outlet></router-outlet>
@@ -48,9 +54,9 @@ export class AppComponent {
       if (terminal) {
         terminal.element.querySelector('.xterm-viewport').style.background = theme().config.background;
       }
-      const cf = currentFile();
-      openFile(cf).then();
-    });
+      openFile(currentFile()).then();
+      mode.set('code');
+    }, { allowSignalWrites: true });
   }
 
 
@@ -67,4 +73,5 @@ export class AppComponent {
   protected readonly theme = theme;
   protected readonly darkenColor = darkenColor;
   protected readonly lightenColor = lightenColor;
+  protected readonly mode = mode;
 }
