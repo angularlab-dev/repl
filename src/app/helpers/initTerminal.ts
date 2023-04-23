@@ -10,7 +10,7 @@ async function initTerminal() {
   const { FitAddon } = await import('xterm-addon-fit');
 
   const fitAddon = new FitAddon();
-  const terminal = new Terminal({
+  const terminal: any = new Terminal({
     convertEol: true,
   })
 
