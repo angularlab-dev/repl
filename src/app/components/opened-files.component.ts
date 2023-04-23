@@ -13,8 +13,8 @@ import isFileOpen from "../helpers/isFileOpen";
       <div
         *ngFor="let file of openedFiles()"
         (click)="currentFile.set(file)"
-        class="px-2 {{ isFileOpen(file) ? 'border-b-2 border-active cursor-pointer shadow-xl text-active': 'border-transparent'}}"
-        [style.background-color]="isFileOpen(file) ? bg : bg__selected"
+        class="px-2 {{ isFileOpen(file) ? 'border-b-2 border-active cursor-pointer shadow-xl': 'border-transparent'}}"
+        [style.background-color]="isFileOpen(file) ? bg__selected : bg"
       >
         <div>
           <file-icon [type]="getFileType(file.name)"></file-icon>

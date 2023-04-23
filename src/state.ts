@@ -10,6 +10,8 @@ export const ideState = signal<IdeState>({
   editor: null,
   vm: null,
   terminal: null,
+  output: null,
 });
 export const theme = signal<Theme>(dracula);
-export const mode = signal<'code' | 'preview'>('code');
+export const mode = signal<'code' | 'preview'>('preview');
+export const devToolsView = signal<'output' | 'terminal'>('output');

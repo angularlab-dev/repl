@@ -1,9 +1,6 @@
-import installDeps from "./installDeps";
 import {ideState} from "../../state";
 
 async function startShell() {
-  await installDeps();
-
   const { vm, terminal } = ideState();
   const shell = await vm.spawn('jsh', {
     terminal: {

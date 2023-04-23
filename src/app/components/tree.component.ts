@@ -16,7 +16,8 @@ import isFileOpen from "../helpers/isFileOpen";
         </ng-container>
       </li>
       <li *ngFor="let file of files" (click)="onFileOrDirClick(file)"
-          [style.color]="isFileOpen(file) ? '#ff003b' : theme().config.foreground"
+          class="{{isFileOpen(file) ? 'bg-active bg-opacity-40': ''}}"
+          [style.color]="fg"
       >
         <file-icon type="{{getFileType(file.name)}}"></file-icon>
         {{ file.path }}
@@ -30,6 +31,7 @@ export class TreeComponent {
   directories: any [] = [];
   files: any[] = [];
   fg = theme().config.foreground;
+  bg__selected = theme().config.foreground;
   async openFile(file: IdeFile) {
     const alreadyOpen = openedFiles().find((f) => f.path === file.path);
     if (!alreadyOpen) {

@@ -7,11 +7,13 @@ export interface WebIdeOptions {
   editorEl: HTMLElement;
   iframeEl: HTMLIFrameElement;
   terminalEl: HTMLElement;
+  outputEl: HTMLElement;
 }
 export interface IdeState {
   editor: EditorView | null;
   vm: any;
   terminal: any;
+  output: any;
   options?: WebIdeOptions;
 }
 

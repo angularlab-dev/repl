@@ -1,7 +1,7 @@
 import { Component, effect, ViewChild } from '@angular/core';
 import initWs from "./helpers/initWs";
 import tree from "./tree";
-import {currentFile, ideState, mode, theme} from "../state";
+import {currentFile, devToolsView, ideState, mode, theme} from "../state";
 import openFile from "./helpers/openFile";
 import lightenColor from "../utils/lightenColor";
 
@@ -28,12 +28,16 @@ import lightenColor from "../utils/lightenColor";
             </div>
           </div>
         </div>
+        <div  [style.display]="mode() === 'preview' ? 'block': 'none'" class="w-full h-full">
+          <iframe #iframe style="height: 95%; width: 100%"></iframe>
+        </div>
         <div #editor class="z-10" [style.display]="mode() === 'code' ? 'block': 'none'"></div>
-        <iframe [style.display]="mode() === 'preview' ? 'block': 'none'" #iframe style="height: 100%; width: 100%"></iframe>
       </div>
       <div class="row-span-2 col-span-9 overflow-hidden" [style.background-color]="bg">
-        <div class="p-1" [style.background-color]="bg__light20">Terminal</div>
-        <div #terminal class="px-1 terminal"></div>
+        <div class="p-1" [style.background-color]="bg__light20" (click)="devToolsView.set('terminal')">Terminal</div>
+        <div class="p-1" [style.background-color]="bg__light20" (click)="devToolsView.set('output')">Output</div>
+        <div #terminal class="px-1 terminal" [style.display]="devToolsView() === 'terminal' ? 'block': 'none'"></div>
+        <div #output class="px-1 terminal" [style.display]="devToolsView() === 'output' ? 'block': 'none'"></div>
       </div>
     </div>
     <router-outlet></router-outlet>
@@ -44,6 +48,7 @@ export class AppComponent {
   @ViewChild('editor') editorDiv: any;
   @ViewChild('iframe') iframeEl: any;
   @ViewChild('terminal') terminalEl: any;
+  @ViewChild('output') outputEl: any;
   @ViewChild('treeContainer') treeContainer: any;
   title = 'lab';
   tree: any = tree;
@@ -57,8 +62,11 @@ export class AppComponent {
       if (terminal) {
         terminal.element.querySelector('.xterm-viewport').style.background = theme().config.background;
       }
-      openFile(currentFile()).then();
-      mode.set('code');
+      const cf = currentFile();
+      if (cf) {
+        mode.set('code');
+        openFile(cf).then();
+      }
     }, { allowSignalWrites: true });
   }
 
@@ -68,9 +76,11 @@ export class AppComponent {
       editorEl: this.editorDiv.nativeElement,
       iframeEl: this.iframeEl.nativeElement,
       terminalEl: this.terminalEl.nativeElement,
+      outputEl: this.outputEl.nativeElement,
       tree,
     });
   }
 
   protected readonly mode = mode;
+  protected readonly devToolsView = devToolsView;
 }
