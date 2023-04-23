@@ -18,9 +18,9 @@ import {Theme} from "../helpers/type";
         </button>
       </div>
 
-      <div *ngIf="isExpanded" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5" role="menu" [attr.aria-orientation]="'vertical'" [attr.aria-labelledby]="menuId">
+      <div *ngIf="isExpanded" class="z-50 cursor-pointer origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5" role="menu" [attr.aria-orientation]="'vertical'" [attr.aria-labelledby]="menuId">
         <div class="py-1" role="none">
-          <div *ngFor="let th of themes" (click)="setTheme(th)" class="flex">
+          <div *ngFor="let th of themes" (click)="setTheme(th); toggleMenu();" class="flex">
             <div class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">{{th.name}}</div>
           </div>
         </div>

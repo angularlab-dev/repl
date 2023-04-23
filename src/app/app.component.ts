@@ -18,7 +18,7 @@ import lightenColor from "../utils/lightenColor";
       </div>
 
       <div class="row-span-4 col-span-9 overflow-auto relative" [style.background-color]="bg">
-        <div class="sticky top-0 z-50 shadow-md" [style.background-color]="bg__light20">
+        <div class="sticky top-0 z-10 shadow-md" [style.background-color]="bg__light20">
           <div class="flex">
             <div class="grow">
               <opened-files></opened-files>
@@ -58,9 +58,16 @@ export class AppComponent {
   bg__light20 = lightenColor(theme().config.background, 20);
   constructor() {
     effect(() => {
-      const { terminal } = ideState();
+      const { config: {background, foreground}} = theme();
+      this.fg = foreground;
+      this.bg = background;
+      this.bg__light10 = lightenColor(background, 10);
+      this.bg__light20 = lightenColor(background, 20);
+
+      const { terminal, output } = ideState();
       if (terminal) {
-        terminal.element.querySelector('.xterm-viewport').style.background = theme().config.background;
+        terminal.element.querySelector('.xterm-viewport').style.background = background;
+        output.element.querySelector('.xterm-viewport').style.background = background;
       }
       const cf = currentFile();
       if (cf) {
