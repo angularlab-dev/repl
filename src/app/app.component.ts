@@ -31,7 +31,7 @@ import isFileOpen from "./helpers/isFileOpen";
             </div>
           </div>
         </div>
-        <div  [style.display]="mode() === 'preview' ? 'block': 'none'" class="w-full h-full">
+        <div [style.display]="mode() === 'preview' ? 'block': 'none'" class="w-full h-full bg-white">
           <iframe #iframe style="height: 95%; width: 100%"></iframe>
         </div>
         <div #editor class="z-10" [style.display]="mode() === 'code' ? 'block': 'none'"></div>
