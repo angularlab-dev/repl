@@ -2,7 +2,7 @@ import { ideState } from "../../state";
 
 async function installDeps() {
   const { vm, output } = ideState();
-  const installProcess = await vm.spawn('npm', ['install']);
+  const installProcess = await vm.spawn('turbo', ['install']);
   installProcess.output.pipeTo(new WritableStream({
     write(data) {
       output.write(data);

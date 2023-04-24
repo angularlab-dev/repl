@@ -19,7 +19,7 @@ import isFileOpen from "../helpers/isFileOpen";
           class="{{isFileOpen(file) ? 'bg-active bg-opacity-40': ''}}"
       >
         <file-icon type="{{getFileType(file.name)}}"></file-icon>
-        {{ file.path }}
+        {{ file.name }}
       </li>
     </ul>
   `,
