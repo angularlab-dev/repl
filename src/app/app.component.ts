@@ -25,7 +25,7 @@ import isFileOpen from "./helpers/isFileOpen";
               <opened-files></opened-files>
             </div>
             <div (click)="mode.set('preview')"
-                 class="flex p-2 cursor-pointer ml-auto {{ mode() === 'preview' ? 'border-b-2 border-active shadow-xl': 'border-transparent'}}"
+                 class="flex p-2 cursor-pointer {{ mode() === 'preview' ? 'border-b-2 border-active shadow-xl': 'border-transparent'}}"
             >
               preview
             </div>
